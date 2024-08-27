@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Guess My Number!</title>
+</head>
+
+<body>
+	<header>
+		<h1>Guess My Number!</h1>
+	</header>
+	<main>
+		<section class="score">
+			<label>Score:</label>
+			<span class="score-value">20</span>
+		</section>
+		<section class="number">
+			<label>Secret Number:</label>
+			<span class="number-value">?</span>
+		</section>
+		<section class="guess">
+			<input type="number" class="guess-number" placeholder="Guess..." />
+			<button class="check">Check!</button>
+		</section>
+		<section class="message">
+			<label class="message-value">Start guessing...</label>
+		</section>
+		<button class="again">Again!</button>
+	</main>
+	<script>
+		// Selecting elements
+		const scoreEl = document.querySelector('.score-value');
+		const numberEl = document.querySelector('.number-value');
+		const guessEl = document.querySelector('.guess-number');
+		const checkBtn = document.querySelector('.check');
+		const messageEl = document.querySelector('.message-value');
+		const againBtn = document.querySelector('.again');
+
+		// Initial values
+		let score = 20;
+		let secretNumber = Math.trunc(Math.random() * 20) + 1;
+
+		// Event handlers
+		checkBtn.addEventListener('click', function () {
+			const guess = Number(guessEl.value);
+
+			// When there is no input
+			if (!guess) {
+				messageEl.textContent = 'No number!';
+				console.log();
+				
+
+				// When player wins
+			} else if (guess === secretNumber) {
+				messageEl.textContent = 'Correct Number!';
+				numberEl.textContent = secretNumber;
+				document.body.style.backgroundColor = '#60b347';
+				numberEl.style.width = '30rem';
+
+				// When guess is wrong
+			} else if (guess !== secretNumber) {
+				if (score > 1) {
+					messageEl.textContent = guess > secretNumber ? 'Too high!' : 'Too low!';
+					score--;
+					scoreEl.textContent = score;
+				} else {
+					messageEl.textContent = 'You lost the game!';
+					scoreEl.textContent = 0;
+				}
+			}
+		});
+
+		againBtn.addEventListener('click', function () {
+			score = 20;
+			secretNumber = Math.trunc(Math.random() * 20) + 1;
+			messageEl.textContent = 'Start guessing...';
+			scoreEl.textContent = score;
+			numberEl.textContent = '?';
+			guessEl.value = '';
+			document.body.style.backgroundColor = '#fff';
+			numberEl.style.width = '15rem';
+		});
+	</script>
+</body>
