@@ -30,7 +30,6 @@ function HomeScreen({ navigation, route }) {
     const sortedData = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     setTodoList(sortedData);
     setLoading(false);
-
   };
 
   const createTask = async (newTask) => {
@@ -162,25 +161,14 @@ function EditScreen({ navigation, route }) {
   const task = route.params.task;
   const [inputTask, setInputTask] = useState(task.title);
 
-
-  const [todoList, setTodoList] = useState([]);
-
-  const fetchTodos = async () => {
-    const response = await fetch('https://6705ec84031fd46a831160c0.mockapi.io/todos');
-    const data = await response.json();
-    setTodoList(data);
-  };
-
   const editTask = async (id, newTask) => {
-    const response = await fetch(`https://6705ec84031fd46a831160c0.mockapi.io/todos/${id}`, {
+    await fetch(`https://6705ec84031fd46a831160c0.mockapi.io/todos/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(newTask)
     });
-
-    fetchTodos();
   }
 
   return (
